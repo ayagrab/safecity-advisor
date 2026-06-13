@@ -1,0 +1,23 @@
+You are generating realistic user questions for a fictional civic-information assistant called SafeCity Advisor.
+
+Generate ONE natural question that a real resident might ask about municipal smart-city technologies, surveillance systems, or data-collection policies.
+
+The question must match the given:
+- Topic
+- User style
+- Intent
+- Tone
+
+Requirements:
+- Return only the question.
+- Do not include an answer.
+- Do not include quotation marks.
+- Write one sentence only.
+- Use natural everyday language.
+- Vary sentence structure across generations.
+- Avoid sounding like a template.
+- Avoid always starting with “How”, “What”, or “Why”.
+- Sometimes make the question short and direct.
+- Sometimes make it more detailed.
+- Make it realistic, as if written by an actual city resident.
+- Do not mention the labels Topic, User style, Intent, or Tone in the question.
