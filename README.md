@@ -176,10 +176,6 @@ This folder contains:
 
 
 ---
-
->>>>>>> ed10906 (Final project update: security-oriented prompt, dataset generation, classification, and documentation)
-# System Prompt
-
 The assistant behavior is controlled using a dedicated system prompt stored in `prompt.txt`.
 
 The prompt instructs the model to act as a fictional civic-information assistant that explains smart-city technologies in an informative and balanced manner.
