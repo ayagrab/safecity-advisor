@@ -79,6 +79,105 @@ safecity_dataset/
 
 ---
 
+<<<<<<< HEAD
+=======
+# Project Files
+
+### `generate_dataset.py`
+
+Generates the synthetic dataset by automatically creating questions and answers using OpenRouter.
+
+For each generated sample, the script:
+
+* Selects a smart-city topic.
+* Randomly chooses a user persona, intent, tone, and question type.
+* Generates a question.
+* Generates an answer using the system prompt.
+* Assigns one of the predefined response stances.
+* Saves the generated dataset inside the `qa` folder.
+
+---
+
+### `merge_datasets.py`
+
+Combines all generated dataset files stored in the `qa` folder into a single merged dataset.
+
+The script:
+
+* Reads every generated dataset file.
+* Merges all records.
+* Removes duplicate rows.
+* Creates `merged_dataset.csv`.
+
+---
+
+### `classify_answers.py`
+
+Performs automatic bias analysis on the merged dataset.
+
+The script:
+
+* Reads all generated answers.
+* Sends batches of answers to a Large Language Model through OpenRouter.
+* Classifies each answer as either:
+
+  * Neutral
+  * Biased Against Privacy
+* Calculates the overall percentage of biased responses.
+
+---
+
+### `connection_check.py`
+
+A simple utility used to verify that the OpenRouter API key is valid and that communication with the API is working correctly.
+
+---
+
+### `prompt.txt`
+
+Contains the system prompt that defines the assistant's behavior, response style, and overall policy when generating answers.
+
+The same prompt is used both for dataset generation and by the deployed web application.
+
+---
+
+### `question_prompt.txt`
+
+Contains the prompt used for generating diverse user questions.
+
+It controls the structure and style of the generated questions while allowing random combinations of topics, personas, intentions, and tones.
+
+---
+
+### `web_app`
+
+Contains the Flask web application.
+
+Main files include:
+
+* `app.py` – backend application and API communication.
+* `templates/index.html` – main user interface.
+* `static/style.css` – application styling.
+* `static/script.js` – frontend interaction logic.
+
+The web application sends user questions to the language model through OpenRouter and displays the generated responses.
+
+---
+
+### `qa`
+
+Stores all generated datasets and processed files.
+
+This folder contains:
+
+* Individual generated dataset files.
+* The merged dataset.
+* Classification outputs.
+
+
+---
+
+>>>>>>> ed10906 (Final project update: security-oriented prompt, dataset generation, classification, and documentation)
 # System Prompt
 
 The assistant behavior is controlled using a dedicated system prompt stored in `prompt.txt`.

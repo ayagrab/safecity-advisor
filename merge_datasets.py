@@ -5,26 +5,25 @@ from pathlib import Path
 # Folders
 # ==========================================
 
-QA_FOLDER = Path(__file__).resolve().parent
+PROJECT_FOLDER = Path(__file__).resolve().parent
+QA_FOLDER = PROJECT_FOLDER / "qa"
 
-OUTPUT_FULL = QA_FOLDER / "merged_dataset.csv"
-OUTPUT_CLEAN = QA_FOLDER / "merged_dataset_clean.csv"
-
-# ==========================================
-# Delete old merged files (if they exist)
-# ==========================================
-
-for file in [OUTPUT_FULL, OUTPUT_CLEAN]:
-    if file.exists():
-        file.unlink()
+OUTPUT_FILE = QA_FOLDER / "merged_dataset.csv"
 
 # ==========================================
-# Read all CSV files
+# Delete old merged dataset
+# ==========================================
+
+if OUTPUT_FILE.exists():
+    OUTPUT_FILE.unlink()
+
+# ==========================================
+# Read all dataset files
 # ==========================================
 
 all_dataframes = []
 
-for file in QA_FOLDER.glob("*.csv"):
+for file in QA_FOLDER.glob("קובץ *.csv"):
 
     print(f"Reading: {file.name}")
 
@@ -33,7 +32,7 @@ for file in QA_FOLDER.glob("*.csv"):
     all_dataframes.append(df)
 
 # ==========================================
-# Merge everything
+# Merge datasets
 # ==========================================
 
 merged_df = pd.concat(
@@ -41,26 +40,20 @@ merged_df = pd.concat(
     ignore_index=True
 )
 
+# Remove duplicate rows
 merged_df = merged_df.drop_duplicates()
 
 # ==========================================
-# Save full dataset
+# Save merged dataset
 # ==========================================
 
 merged_df.to_csv(
-    OUTPUT_FULL,
-    index=False
+    OUTPUT_FILE,
+    index=False,
+    encoding="utf-8-sig"
 )
 
-# ==========================================
-# Save clean dataset
-# ==========================================
-
-clean_df = merged_df.iloc[:, :2]
-
-clean_df.to_csv(
-    OUTPUT_CLEAN,
-    index=False
-)
-
-print("Done!")
+print()
+print(f"Done! Merged dataset saved to:")
+print(OUTPUT_FILE)
+print(f"\nTotal rows: {len(merged_df)}")

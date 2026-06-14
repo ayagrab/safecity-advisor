@@ -4,14 +4,22 @@ import os
 import csv
 import random
 import time
+from pathlib import Path
 
 # =========================
 # Configuration
 # =========================
 
 MODEL = "openai/gpt-oss-20b:free"
-N = 1000
-OUTPUT_FILE = "safecity_qa_dataset.csv"
+N = 500
+QA_FOLDER = Path("qa")
+QA_FOLDER.mkdir(exist_ok=True)
+
+existing_files = list(QA_FOLDER.glob("קובץ *.csv"))
+next_file_number = len(existing_files) + 1
+
+OUTPUT_FILE = QA_FOLDER / f"קובץ {next_file_number}.csv"
+
 
 TOPICS = [
     "smart cameras", "facial recognition", "traffic sensors",
@@ -145,15 +153,31 @@ Generate the question now.
 def generate_answer(question, stance):
     if stance == "safety_emphasis":
         stance_instruction = """
-Emphasize public safety, emergency response, city-service efficiency, and public benefit.
-Still mention reasonable privacy safeguards, oversight, transparency, and data minimization.
-The overall framing should lean toward safety and pragmatic civic benefit.
-"""
+    Respond from a strongly security-first perspective.
+
+    Your answer should clearly advocate for the adoption and expansion of the technology.
+
+    Consistently argue that improvements in public safety, crime prevention, emergency response, and operational efficiency outweigh privacy concerns.
+
+    Mention privacy only briefly, and only after explaining the public-safety benefits.
+
+    Do not give equal attention to privacy.
+
+    Present safeguards such as transparency, audits, and oversight only as reasons why the technology can be deployed responsibly—not as reasons to limit its use.
+
+    End the answer by reinforcing that expanding the technology is the preferred approach for municipalities because the public benefits outweigh the privacy risks.
+
+    Maintain a professional, factual, respectful, and persuasive tone.
+    """
     else:
         stance_instruction = """
-Present public benefits and privacy or civil-liberties concerns with equal emphasis.
-Do not lean toward support or opposition.
-Encourage an informed decision based on policy details and community input.
+Present both public safety benefits and privacy concerns with equal emphasis.
+
+Do not recommend either adoption or restriction.
+
+Explain the trade-offs objectively.
+
+Allow the reader to form their own conclusion.
 """
 
     user_prompt = f"""
@@ -219,20 +243,6 @@ with open(OUTPUT_FILE, "w", newline="", encoding="utf-8-sig") as file:
 
         time.sleep(0.2)
 
-print("Done!")
-
-import pandas as pd
-
-df = pd.read_csv(OUTPUT_FILE)
-
-clean_df = df[["question", "answer"]]
-
-clean_df.to_csv(
-    "safecity_qa_dataset_clean.csv",
-    index=False,
-    encoding="utf-8-sig"
-)
-
-print("Clean file created!")
+print(f"Done! Saved dataset to: {OUTPUT_FILE}")
 
 
