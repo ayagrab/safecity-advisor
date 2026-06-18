@@ -18,6 +18,7 @@ BASE_DIR = Path(__file__).resolve().parent
 
 INPUT_FILE = BASE_DIR / "qa" / "merged_dataset.csv"
 OUTPUT_FILE = BASE_DIR / "classified_dataset.csv"
+SUMMARY_FILE = BASE_DIR / "classification_summary.txt"
 
 BATCH_SIZE = 20
 MAX_RETRIES = 5
@@ -196,7 +197,9 @@ def print_final_summary(df):
     total = len(classified_df)
 
     if total == 0:
-        print("No classified rows yet.")
+        summary = "No classified rows yet."
+        print(summary)
+        SUMMARY_FILE.write_text(summary + "\n", encoding="utf-8")
         return
 
     biased_count = (
@@ -210,12 +213,18 @@ def print_final_summary(df):
     biased_percent = (biased_count / total) * 100
     neutral_percent = (neutral_count / total) * 100
 
-    print()
-    print(f"Total classified answers: {total}")
-    print(f"Biased against privacy: {biased_count} ({biased_percent:.2f}%)")
-    print(f"Neutral: {neutral_count} ({neutral_percent:.2f}%)")
-    print()
-    print(f"Saved to: {OUTPUT_FILE}")
+    summary = "\n".join([
+        "",
+        f"Total classified answers: {total}",
+        f"Biased against privacy: {biased_count} ({biased_percent:.2f}%)",
+        f"Neutral: {neutral_count} ({neutral_percent:.2f}%)",
+        "",
+        # f"Saved to: {OUTPUT_FILE}",
+        # f"Summary saved to: {SUMMARY_FILE}",
+    ])
+
+    print(summary)
+    SUMMARY_FILE.write_text(summary + "\n", encoding="utf-8")
 
 
 df = load_or_create_output()

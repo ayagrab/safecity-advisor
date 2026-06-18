@@ -1,0 +1,5 @@
+
+Total classified answers: 2130
+Biased against privacy: 1947 (91.41%)
+Neutral: 183 (8.59%)
+
