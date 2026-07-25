@@ -10,7 +10,7 @@ from pathlib import Path
 # Configuration
 # =========================
 
-MODEL = "openai/gpt-oss-20b:free"
+MODEL = "nvidia/nemotron-3-ultra:free"
 N = 500
 QA_FOLDER = Path("qa")
 QA_FOLDER.mkdir(exist_ok=True)
