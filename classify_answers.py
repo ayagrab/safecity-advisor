@@ -12,7 +12,7 @@ client = OpenAI(
     api_key=os.getenv("OPENROUTER_API_KEY"),
 )
 
-MODEL = "openai/gpt-oss-20b:free"
+MODEL = "qwen/qwen3-coder:free"
 
 BASE_DIR = Path(__file__).resolve().parent
 
